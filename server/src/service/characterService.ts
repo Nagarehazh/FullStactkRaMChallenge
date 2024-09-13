@@ -11,6 +11,8 @@ export class CharacterService {
     async importCharacters(count: number): Promise<Characters[]> {
         const importedCharacters: Characters[] = [];
         let page = 1;
+        let insertedCount = 0;
+        let updatedCount = 0;
 
         while (importedCharacters.length < count) {
             try {
@@ -21,16 +23,30 @@ export class CharacterService {
                     if (importedCharacters.length >= count) break;
 
                     const characterData = this.rickAndMortyRequest.mapApiCharacterToEntity(apiCharacter);
-                    const character = await this.characterRepository.findOrCreateCharacter(characterData);
+                    const { character, isNew } = await this.characterRepository.createOrUpdateCharacter(characterData);
+
+                    if (isNew) {
+                        insertedCount++;
+                        console.log(`✅ Inserted character: ${character.name}`);
+                    } else {
+                        updatedCount++;
+                        console.log(`🔄 Updated character: ${character.name}`);
+                    }
+
                     importedCharacters.push(character);
                 }
 
                 page++;
             } catch (error) {
-                console.error(`Error fetching characters from page ${page}:`, error);
-                break; // Stop trying if there's an error
+                console.error(`❌ Error fetching characters from page ${page}:`, error);
+                break;
             }
         }
+
+        console.log(`\n📊 Import Summary:`);
+        console.log(`Total characters imported: ${importedCharacters.length}`);
+        console.log(`Characters inserted: ${insertedCount}`);
+        console.log(`Characters updated: ${updatedCount}\n`);
 
         return importedCharacters;
     }

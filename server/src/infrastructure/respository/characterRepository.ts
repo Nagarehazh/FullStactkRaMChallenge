@@ -9,20 +9,24 @@ export default class CharacterRepository {
         this.repository = AppDataSource.getRepository(Characters);
     }
 
-    async createCharacter(characterData: Partial<Characters>): Promise<Characters> {
-        const character = this.repository.create(characterData);
-        return await this.repository.save(character);
+    async createOrUpdateCharacter(characterData: Partial<Characters>): Promise<{ character: Characters, isNew: boolean }> {
+        let character = await this.findCharacterByName(characterData.name || '');
+        if (character) {
+            this.repository.merge(character, characterData);
+            const updatedCharacter = await this.repository.save(character);
+            return { character: updatedCharacter, isNew: false };
+        } else {
+            character = this.repository.create(characterData);
+            const newCharacter = await this.repository.save(character);
+            return { character: newCharacter, isNew: true };
+        }
     }
 
     async findCharacterByName(name: string): Promise<Characters | null> {
         return await this.repository.findOne({ where: { name } });
     }
 
-    async findOrCreateCharacter(characterData: Partial<Characters>): Promise<Characters> {
-        const existingCharacter = await this.findCharacterByName(characterData.name || '');
-        if (existingCharacter) {
-            return existingCharacter;
-        }
-        return await this.createCharacter(characterData);
+    async getCharacterCount(): Promise<number> {
+        return await this.repository.count();
     }
 }

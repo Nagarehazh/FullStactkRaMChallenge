@@ -13,7 +13,6 @@ const options: DataSourceOptions = {
     migrationsTableName: 'migrations_tables',
     synchronize: false,
     logging: false,
-    //seeds: [MainSeeder],
     extra: {
         max: 5,
     }

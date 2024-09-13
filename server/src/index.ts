@@ -3,6 +3,7 @@ import {startApolloServer} from './infrastructure/graphql/app';
 import {Application} from "express";
 import {environments} from "./configs/environments";
 import {AppDataSource} from "./configs/postgres/datasource"
+import {MainSeeder} from "./seeds/MainSeeder";
 
 (function main() {
         startApolloServer().then((app: Application) => {
@@ -13,11 +14,14 @@ import {AppDataSource} from "./configs/postgres/datasource"
         )
 
         AppDataSource.initialize()
-            .then(() => {
-                console.log('🎲 Database connected')
+            .then(async () => {
+                console.log('🎲 Database connected');
+                const seeder = new MainSeeder();
+                await seeder.run(AppDataSource);
             })
             .catch((error) => {
-                console.log('Database connection error', error)
+                console.error('Database connection error', error);
+                process.exit(1);
             });
     }
 )();
