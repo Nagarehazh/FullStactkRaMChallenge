@@ -7,51 +7,66 @@ import {
     DeleteDateColumn,
     OneToMany
 } from 'typeorm';
-import type { Relation } from 'typeorm';
-import {Favorites} from "./favorites";
-import {Comments} from "./comments";
+import { ObjectType, Field } from 'type-graphql';
+import { Comments } from './comments';
+import { Favorites } from './favorites';
 
+@ObjectType()
 @Entity('characters')
 export class Characters {
+    @Field()
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 
+    @Field()
     @Column()
     name!: string;
 
+    @Field()
     @Column()
     status!: string;
 
+    @Field()
     @Column()
     species!: string;
 
+    @Field()
     @Column()
     type!: string;
 
+    @Field()
     @Column()
     gender!: string;
 
+    @Field()
     @Column()
     origin!: string;
 
+    @Field()
     @Column()
     location!: string;
 
+    @Field()
     @Column()
     image!: string;
 
+    @Field(() => [Comments])
     @OneToMany(() => Comments, comment => comment.character)
-    comments!: Relation<Comment[]>;
+    comments!: Comments[];
 
+    @Field(() => [Favorites])
     @OneToMany(() => Favorites, favorite => favorite.character)
-    favorites!: Relation<Favorites[]>;
+    favorites!: Favorites[];
 
-    @CreateDateColumn()
+    @Field()
+    @CreateDateColumn({ name: 'created_at' })
     createdAt!: Date;
 
-    @UpdateDateColumn()
+    @Field()
+    @UpdateDateColumn({ name: 'updated_at' })
     updatedAt!: Date;
 
-    @DeleteDateColumn()
-    deletedAt!: Date;
+    @Field({ nullable: true })
+    @DeleteDateColumn({ name: 'deleted_at' })
+    deletedAt?: Date;
 }

@@ -8,17 +8,21 @@
     "dev": "nodemon src/index.ts --exec ts-node",
     "typeorm": "typeorm-ts-node-commonjs -d ./src/configs/postgres/datasource.ts",
     "migration:run": "npm run typeorm migration:run",
-    "migration:create": "typeorm migration:create ./src/configs/postgres/migrations/favorites",
+    "migration:create": "typeorm migration:create src/migrations/favorites",
     "start": "npm run migration:run && npm run dev"
   },
   "dependencies": {
     "apollo-server-express": "^3.13.0",
+    "axios": "^1.7.7",
+    "class-validator": "^0.14.1",
     "express": "^4.21.0",
+    "inversify": "^6.0.2",
     "mysql": "^2.18.1",
     "nodemon": "^3.1.4",
     "pg": "^8.12.0",
     "reflect-metadata": "^0.2.2",
     "type-graphql": "^2.0.0-rc.2",
+    "typedi": "^0.10.0",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
