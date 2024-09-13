@@ -7,7 +7,7 @@ import {MainSeeder} from "./seeds/MainSeeder";
 
 (function main() {
         startApolloServer().then((app: Application) => {
-                app.listen({port: environments.PORT}, () => {
+               app.listen({port: environments.PORT}, () => {
                     console.log(`🚀 Server ready at http://localhost:${environments.PORT}/graphql`);
                 });
             }

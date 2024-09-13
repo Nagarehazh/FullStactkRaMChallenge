@@ -1,6 +1,7 @@
 import { AppDataSource } from "../../configs/postgres/datasource";
 import { Characters } from "../../entity/characters";
 import { Repository } from "typeorm";
+import {CharacterFilters} from "../../service/characterService";
 
 export default class CharacterRepository {
     private repository: Repository<Characters>;
@@ -28,5 +29,21 @@ export default class CharacterRepository {
 
     async getCharacterCount(): Promise<number> {
         return await this.repository.count();
+    }
+
+    async getCharacters(filters: CharacterFilters): Promise<Characters[]> {
+        const queryBuilder = this.repository.createQueryBuilder('characters');
+
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value) {
+                if (key === 'name') {
+                    queryBuilder.andWhere(`characters.${key} ILIKE :${key}`, { [key]: `%${value}%` });
+                } else {
+                    queryBuilder.andWhere(`characters.${key} = :${key}`, { [key]: value });
+                }
+            }
+        });
+
+        return await queryBuilder.getMany();
     }
 }

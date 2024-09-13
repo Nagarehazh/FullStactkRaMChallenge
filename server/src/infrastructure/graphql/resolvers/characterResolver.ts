@@ -23,4 +23,20 @@ export class CharacterResolver {
             throw new Error('Failed to import characters. Please try again later.');
         }
     }
+
+    @Query(() => [Characters])
+    async getCharacters(
+        @Arg('status', () => String, { nullable: true }) status?: string,
+        @Arg('species', () => String, { nullable: true }) species?: string,
+        @Arg('gender', () => String, { nullable: true }) gender?: string,
+        @Arg('name', () => String, { nullable: true }) name?: string,
+        @Arg('origin', () => String, { nullable: true }) origin?: string
+    ): Promise<Characters[]> {
+        try {
+            return await this.characterService.getCharacters({ status, species, gender, name, origin });
+        } catch (error) {
+            console.error('Error fetching characters:', error);
+            throw new Error('Failed to fetch characters. Please try again later.');
+        }
+    }
 }

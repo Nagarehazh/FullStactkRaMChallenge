@@ -5,6 +5,7 @@ import { Application } from "express-serve-static-core";
 import HealthCheckResolver from "./resolvers/healthCheckResolver";
 import { CharacterResolver } from "./resolvers/characterResolver";
 import { Characters } from "../../entity/characters";
+import {loggerPlugin} from "../middleware/loggerPlugin";
 
 export async function startApolloServer() {
     const app = express();
@@ -19,13 +20,15 @@ export async function startApolloServer() {
     const server = new ApolloServer({
         schema,
         context: ({ req, res }) => ({ req, res }),
+        plugins: [loggerPlugin],
+        introspection: process.env.NODE_ENV !== 'production'
     });
 
     await server.start();
 
     server.applyMiddleware({
         app: app as unknown as Application<Record<string, any>>,
-        path: '/graphql'
+        path: '/graphql',
     });
 
     return app;

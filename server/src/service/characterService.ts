@@ -2,6 +2,15 @@ import { RickAndMortyRequest } from "../infrastructure/requests/getCharactersFro
 import CharacterRepository from "../infrastructure/respository/characterRepository";
 import { Characters } from "../entity/characters";
 
+export interface CharacterFilters {
+    name?: string;
+    status?: string;
+    species?: string;
+    gender?: string;
+    origin?: string;
+}
+
+
 export class CharacterService {
     constructor(
         private characterRepository: CharacterRepository,
@@ -49,5 +58,9 @@ export class CharacterService {
         console.log(`Characters updated: ${updatedCount}\n`);
 
         return importedCharacters;
+    }
+
+    async getCharacters(filters: CharacterFilters): Promise<Characters[]> {
+        return await this.characterRepository.getCharacters(filters);
     }
 }
