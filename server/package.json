@@ -5,13 +5,18 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon src/index.ts --exec ts-node"
+    "dev": "nodemon src/index.ts --exec ts-node",
+    "typeorm": "typeorm-ts-node-commonjs -d ./src/configs/postgres/datasource.ts",
+    "migration:generate": "typeorm-ts-node-commonjs -d ./src/configs/postgres/datasource migration:generate ./src/configs/postgres/migrations/default_coins_fifty",
+    "migration:run": "npm run typeorm migration:run",
+    "start": "npm run migration:run && npm run dev"
   },
   "dependencies": {
     "apollo-server-express": "^3.13.0",
     "express": "^4.21.0",
     "mysql": "^2.18.1",
     "nodemon": "^3.1.4",
+    "pg": "^8.12.0",
     "reflect-metadata": "^0.2.2",
     "type-graphql": "^2.0.0-rc.2",
     "typeorm": "^0.3.20"

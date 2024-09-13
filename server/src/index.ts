@@ -1,6 +1,7 @@
 import {startApolloServer} from './graphql/app';
 import {Application} from "express";
 import {environments} from "./utils/environments";
+import {AppDataSource} from "./configs/postgres/datasource"
 
 (function main() {
         startApolloServer().then((app: Application) => {
@@ -10,5 +11,14 @@ import {environments} from "./utils/environments";
                 });
             }
         )
+
+        AppDataSource.initialize()
+            .then(() => {
+                console.log('🎲 Database connected')
+            })
+            .catch((error) => {
+                console.log('Database connection error', error)
+            });
     }
 )();
+

@@ -1,0 +1,30 @@
+services:
+  postgres_db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rickmorty_db
+    volumes:
+      - postgres_data_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  server_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: server_app
+    ports:
+      - "4040:4040"
+    depends_on:
+      - postgres_db
+    environment:
+      - DB_HOST=postgres_db
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=rickmorty_db
+
+volumes:
+  postgres_data_db:
