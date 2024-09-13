@@ -9,7 +9,8 @@
     "typeorm": "typeorm-ts-node-commonjs -d ./src/configs/postgres/datasource.ts",
     "migration:run": "npm run typeorm migration:run",
     "migration:create": "typeorm migration:create src/migrations/favorites",
-    "start": "npm run migration:run && npm run dev"
+    "start": "npm run migration:run && npm run dev",
+    "test": "jest --runInBand"
   },
   "dependencies": {
     "apollo-server-express": "^3.13.0",
@@ -30,8 +31,12 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.13",
     "@types/node": "^22.5.4",
     "@types/node-cron": "^3.0.11",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-mockito": "^2.6.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
