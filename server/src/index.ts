@@ -5,6 +5,7 @@ import {environments} from "./configs/environments";
 import {AppDataSource} from "./configs/postgres/datasource"
 import {MainSeeder} from "./seeds/MainSeeder";
 import {connectRedis} from "./configs/redis/redisClient";
+import {startCharacterUpdateJob} from "./cron/characterUpdater";
 
 (async function main() {
         await connectRedis();
@@ -26,6 +27,8 @@ import {connectRedis} from "./configs/redis/redisClient";
                 console.error('Database connection error', error);
                 process.exit(1);
             });
+
+        startCharacterUpdateJob();
     }
 )();
 
