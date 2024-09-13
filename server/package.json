@@ -7,8 +7,8 @@
     "build": "tsc",
     "dev": "nodemon src/index.ts --exec ts-node",
     "typeorm": "typeorm-ts-node-commonjs -d ./src/configs/postgres/datasource.ts",
-    "migration:generate": "typeorm-ts-node-commonjs -d ./src/configs/postgres/datasource migration:generate ./src/configs/postgres/migrations/default_coins_fifty",
     "migration:run": "npm run typeorm migration:run",
+    "migration:create": "typeorm migration:create ./src/configs/postgres/migrations/favorites",
     "start": "npm run migration:run && npm run dev"
   },
   "dependencies": {

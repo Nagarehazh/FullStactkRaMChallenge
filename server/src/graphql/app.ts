@@ -1,31 +1,12 @@
 import 'reflect-metadata';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { buildSchema, Resolver, Query, ObjectType, Field } from 'type-graphql';
+import { buildSchema} from 'type-graphql';
 import {Application} from "express-serve-static-core";
-
-@ObjectType()
-class HealthCheckResponse {
-    @Field()
-    status!: string;
-}
-
-@Resolver()
-class HealthCheckResolver {
-    @Query(() => HealthCheckResponse)
-    async healthCheck(): Promise<HealthCheckResponse> {
-        return {
-            status: 'OK',
-        };
-    }
-}
+import HealthCheckResolver from "./resolvers/healthCheckResolver";
 
 export async function startApolloServer() {
     const app = express();
-
-    app.get('/health', (req, res) => {
-        res.status(200).json({ status: 'OK', timestamp: new Date() });
-    });
 
     const schema = await buildSchema({
         resolvers: [HealthCheckResolver],
