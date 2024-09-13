@@ -5,11 +5,12 @@ import { Application } from "express-serve-static-core";
 import HealthCheckResolver from "./resolvers/healthCheckResolver";
 import { CharacterResolver } from "./resolvers/characterResolver";
 import { Characters } from "../../entity/characters";
-import {loggerPlugin} from "../middleware/loggerPlugin";
+import {requestLogger} from "../middleware/requestLogger";
+
+const app = express();
+app.use(requestLogger);
 
 export async function startApolloServer() {
-    const app = express();
-
     const schema = await buildSchema({
         resolvers: [HealthCheckResolver, CharacterResolver],
         orphanedTypes: [Characters],
@@ -20,8 +21,6 @@ export async function startApolloServer() {
     const server = new ApolloServer({
         schema,
         context: ({ req, res }) => ({ req, res }),
-        plugins: [loggerPlugin],
-        introspection: process.env.NODE_ENV !== 'production'
     });
 
     await server.start();

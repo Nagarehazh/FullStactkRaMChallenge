@@ -4,8 +4,11 @@ import {Application} from "express";
 import {environments} from "./configs/environments";
 import {AppDataSource} from "./configs/postgres/datasource"
 import {MainSeeder} from "./seeds/MainSeeder";
+import {connectRedis} from "./configs/redis/redisClient";
 
-(function main() {
+(async function main() {
+        await connectRedis();
+
         startApolloServer().then((app: Application) => {
                app.listen({port: environments.PORT}, () => {
                     console.log(`🚀 Server ready at http://localhost:${environments.PORT}/graphql`);

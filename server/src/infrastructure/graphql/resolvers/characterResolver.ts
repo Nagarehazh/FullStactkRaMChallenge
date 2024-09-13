@@ -1,8 +1,10 @@
-import {Resolver, Mutation, Arg, Int, Query} from 'type-graphql';
+import { Resolver, Mutation, Arg, Int, Query } from 'type-graphql';
 import { CharacterService } from "../../../service/characterService";
 import { RickAndMortyRequest } from "../../requests/getCharactersFromApi";
 import CharacterRepository from "../../respository/characterRepository";
 import { Characters } from "../../../entity/characters";
+import { LogExecutionTime } from "../../../configs/decorators/logExecutionTime";
+import {getCachedData, setCachedData} from "../../../service/cacheService";
 
 @Resolver(() => Characters)
 export class CharacterResolver {
@@ -14,6 +16,7 @@ export class CharacterResolver {
         this.characterService = new CharacterService(characterRepository, rickAndMortyRequest);
     }
 
+    @LogExecutionTime()
     @Mutation(() => [Characters])
     async importCharacters(@Arg('count', () => Int) count: number): Promise<Characters[]> {
         try {
@@ -24,6 +27,7 @@ export class CharacterResolver {
         }
     }
 
+    @LogExecutionTime()
     @Query(() => [Characters])
     async getCharacters(
         @Arg('status', () => String, { nullable: true }) status?: string,
@@ -33,7 +37,16 @@ export class CharacterResolver {
         @Arg('origin', () => String, { nullable: true }) origin?: string
     ): Promise<Characters[]> {
         try {
-            return await this.characterService.getCharacters({ status, species, gender, name, origin });
+            const cacheKey = `characters_${status || 'all'}_${species || 'all'}_${gender || 'all'}_${name || 'all'}_${origin || 'all'}`;
+            const cachedData = await getCachedData(cacheKey);
+            if (cachedData) {
+                return JSON.parse(cachedData);
+            }
+
+            const characters = await this.characterService.getCharacters({ status, species, gender, name, origin });
+
+            await setCachedData(cacheKey, JSON.stringify(characters), 3600);
+            return characters;
         } catch (error) {
             console.error('Error fetching characters:', error);
             throw new Error('Failed to fetch characters. Please try again later.');
