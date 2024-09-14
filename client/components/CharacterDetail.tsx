@@ -11,7 +11,7 @@ interface ramDetailsProps {
     ram: Character;
 }
 
-const ramDetails = ({ isOpen, closeModal, ram }: ramDetailsProps) => (
+const CharacterDetail = ({ isOpen, closeModal, ram }: ramDetailsProps) => (
     <>
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -72,7 +72,7 @@ const ramDetails = ({ isOpen, closeModal, ram }: ramDetailsProps) => (
 
                                     <div className="mt-3 flex flex-wrap gap-4">
                                         {Object.entries(ram).map(([key, value]) => (
-                                            key !== 'id' && key !== 'image' && (
+                                            key !== 'id' && key !== 'image' && key !== 'favorites' && (
                                                 <div
                                                     className="flex justify-between gap-5 w-full text-right"
                                                     key={key}
@@ -102,4 +102,4 @@ const ramDetails = ({ isOpen, closeModal, ram }: ramDetailsProps) => (
     </>
 );
 
-export default ramDetails;
+export default CharacterDetail;
