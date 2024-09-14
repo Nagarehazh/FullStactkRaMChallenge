@@ -39,13 +39,14 @@ export class CharacterResolver {
         try {
             const cacheKey = `characters_${status || 'all'}_${species || 'all'}_${gender || 'all'}_${name || 'all'}_${origin || 'all'}`;
             const cachedData = await getCachedData(cacheKey);
+
             if (cachedData) {
                 return JSON.parse(cachedData);
             }
 
             const characters = await this.characterService.getCharacters({ status, species, gender, name, origin });
-
             await setCachedData(cacheKey, JSON.stringify(characters), 3600);
+
             return characters;
         } catch (error) {
             console.error('Error fetching characters:', error);

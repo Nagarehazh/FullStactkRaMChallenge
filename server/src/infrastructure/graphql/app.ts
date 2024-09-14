@@ -4,16 +4,18 @@ import { buildSchema } from 'type-graphql';
 import { Application } from "express-serve-static-core";
 import HealthCheckResolver from "./resolvers/healthCheckResolver";
 import { CharacterResolver } from "./resolvers/characterResolver";
+import { FavoriteResolver } from "./resolvers/favoriteResolver";
 import { Characters } from "../../entity/characters";
-import {requestLogger} from "../middleware/requestLogger";
+import { Favorites } from "../../entity/favorites";
+import { requestLogger } from "../middleware/requestLogger";
 
 const app = express();
 app.use(requestLogger);
 
 export async function startApolloServer() {
     const schema = await buildSchema({
-        resolvers: [HealthCheckResolver, CharacterResolver],
-        orphanedTypes: [Characters],
+        resolvers: [HealthCheckResolver, CharacterResolver, FavoriteResolver],
+        orphanedTypes: [Characters, Favorites],
         emitSchemaFile: true,
         validate: false,
     });

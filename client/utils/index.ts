@@ -47,6 +47,9 @@ export const getCharacters = async (filters: {
                 gender
                 origin
                 image
+                favorites {
+                    id
+                }
             }
         }
     `;
@@ -61,10 +64,47 @@ export const getCharacters = async (filters: {
 
     try {
         const response = await graphQLClient.request<{ getCharacters: Character[] }>(query, variables);
-        return response.getCharacters;
+        return response.getCharacters.map(character => ({
+            ...character,
+            favorites: character.favorites || []
+        }));
     } catch (error) {
         console.error('Error fetching characters:', error);
         throw new Error('Error al obtener personajes');
+    }
+};
+
+interface ToggleFavoriteResponse {
+    success: boolean;
+    message: string;
+    favorite?: {
+        id: string;
+        characterId: string;
+    };
+}
+
+export const toggleFavorite = async (characterId: string): Promise<ToggleFavoriteResponse> => {
+    const mutation = `
+        mutation ToggleFavorite($characterId: String!) {
+            toggleFavorite(characterId: $characterId) {
+                success
+                message
+                favorite {
+                    id
+                    characterId
+                }
+            }
+        }
+    `;
+
+    const variables = { characterId };
+
+    try {
+        const response = await graphQLClient.request<{ toggleFavorite: ToggleFavoriteResponse }>(mutation, variables);
+        return response.toggleFavorite;
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
+        throw new Error('Error al marcar/desmarcar favorito');
     }
 };
 

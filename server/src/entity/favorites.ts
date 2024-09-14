@@ -5,7 +5,7 @@ import {
     ManyToOne,
     CreateDateColumn,
     UpdateDateColumn,
-    DeleteDateColumn
+    DeleteDateColumn, JoinColumn
 } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
 import { Characters } from './characters';
@@ -18,11 +18,12 @@ export class Favorites {
     id!: string;
 
     @Field()
-    @Column('uuid')
+    @Column({ name: 'character_id' })
     characterId!: string;
 
     @Field(() => Characters)
     @ManyToOne(() => Characters, character => character.favorites, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'character_id' })
     character!: Characters;
 
     @Field()

@@ -32,19 +32,26 @@ export default class CharacterRepository {
     }
 
     async getCharacters(filters: CharacterFilters): Promise<Characters[]> {
-        const queryBuilder = this.repository.createQueryBuilder('characters');
+        const queryBuilder = this.repository
+            .createQueryBuilder('character')
+            .leftJoinAndSelect('character.favorites', 'favorites')
+            .where('character.deleted_at IS NULL');
 
         Object.entries(filters).forEach(([key, value]) => {
             if (value) {
                 if (key === 'name') {
-                    queryBuilder.andWhere(`REPLACE(characters.${key}, ' ', '') ILIKE :${key}`, { [key]: `%${value.replace(/\s+/g, '')}%` });
+                    queryBuilder.andWhere(`REPLACE(character.${key}, ' ', '') ILIKE :${key}`, { [key]: `%${value.replace(/\s+/g, '')}%` });
                 } else {
-                    queryBuilder.andWhere(`characters.${key} = :${key}`, { [key]: value });
+                    queryBuilder.andWhere(`character.${key} = :${key}`, { [key]: value });
                 }
             }
         });
 
-        return await queryBuilder.getMany();
-    }
+        const characters = await queryBuilder.getMany();
 
+        return characters.map(character => ({
+            ...character,
+            favorites: character.favorites || []
+        }));
+    }
 }

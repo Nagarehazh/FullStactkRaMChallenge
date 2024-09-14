@@ -54,9 +54,9 @@ export class Characters {
     @OneToMany(() => Comments, comment => comment.character)
     comments!: Comments[];
 
-    @Field(() => [Favorites])
+    @Field(() => [Favorites], { nullable: true })
     @OneToMany(() => Favorites, favorite => favorite.character)
-    favorites!: Favorites[];
+    favorites?: Favorites[];
 
     @Field()
     @CreateDateColumn({ name: 'created_at' })

@@ -4,14 +4,28 @@ import { useState } from "react";
 import Image from "next/image";
 import { CharacterCardProps } from "@/types";
 import CharacterDetail from "@/components/CharacterDetail";
+import { toggleFavorite as toggleFavoriteApi } from "@/utils";
 
 const CharacterCard = ({ pj }: CharacterCardProps) => {
-    const [isFavorite, setIsFavorite] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(pj.favorites.length > 0);
     const [isOpen, setIsOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const toggleFavorite = (e: React.MouseEvent) => {
+    const toggleFavorite = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        setIsFavorite(!isFavorite);
+        setErrorMessage(null);
+        try {
+            const result = await toggleFavoriteApi(pj.id);
+            if (result.success) {
+                setIsFavorite(!!result.favorite);
+                console.log(result.message);
+            } else {
+                setErrorMessage(result.message);
+            }
+        } catch (error) {
+            console.error('Error al marcar/desmarcar favorito:', error);
+            setErrorMessage('Error al cambiar el estado del favorito');
+        }
     };
 
     const openModal = () => {
@@ -32,7 +46,11 @@ const CharacterCard = ({ pj }: CharacterCardProps) => {
                         height={24}
                     />
                 </div>
-
+                {errorMessage && (
+                    <div className="absolute top-2 left-2 text-red-500 text-sm">
+                        {errorMessage}
+                    </div>
+                )}
                 <div className="ram-ramd__content">
                     <h2 className="ram-ramd__content-title">{pj.name}</h2>
                 </div>

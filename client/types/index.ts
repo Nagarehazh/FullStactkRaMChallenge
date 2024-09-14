@@ -23,6 +23,7 @@ export interface Character {
     gender: string;
     origin: string;
     image: string;
+    favorites: { id: string }[];
 }
 
 export interface CharacterCardProps {
