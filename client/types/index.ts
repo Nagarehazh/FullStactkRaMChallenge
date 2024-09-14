@@ -11,8 +11,8 @@ export interface CustomButtonProps {
 }
 
 export interface SearchByNameProps {
-    characterName: string;
-    setCharacterName: (name: string) => void;
+    searchQuery: string;
+    setSearchQuery: (name: string) => void;
 }
 
 export interface Character {
@@ -27,4 +27,16 @@ export interface Character {
 
 export interface CharacterCardProps {
     pj: Character;
+}
+
+export interface SearchBarProps {
+    allCharactersData: Character[];
+}
+
+interface FilterProps {
+    search?: string;
+}
+
+export interface HomeProps {
+    searchParams: FilterProps
 }

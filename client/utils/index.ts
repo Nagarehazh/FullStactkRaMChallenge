@@ -67,3 +67,8 @@ export const getCharacters = async (filters: {
         throw new Error('Error al obtener personajes');
     }
 };
+
+export const cleanString = (str: string): string => {
+    return str.toLowerCase()
+            .replace(/\s+/g, "")
+}

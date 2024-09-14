@@ -4,8 +4,9 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import SearchBar from "./SearchBar";
 import CustomFilter from "./CustomFilter";
-import SearchByName from "./SearchByName";
+import SearchByName from "./SearchByQuery";
 import CharacterCard from "./CharacterCard";
+import SearchByQuery from "./SearchByQuery";
 
 export {
     Hero,
@@ -15,5 +16,6 @@ export {
     SearchBar,
     CustomFilter,
     SearchByName,
-    CharacterCard
+    CharacterCard,
+    SearchByQuery
 }

@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { Character } from "@/types";
+import {CustomButton} from "@/components";
 
 interface ramDetailsProps {
     isOpen: boolean;
@@ -71,19 +72,26 @@ const ramDetails = ({ isOpen, closeModal, ram }: ramDetailsProps) => (
 
                                     <div className="mt-3 flex flex-wrap gap-4">
                                         {Object.entries(ram).map(([key, value]) => (
-                                            <div
-                                                className="flex justify-between gap-5 w-full text-right"
-                                                key={key}
-                                            >
-                                                <h4 className="text-grey capitalize">
-                                                    {key.split("_").join(" ")}
-                                                </h4>
-                                                <p className="text-black-100 font-semibold truncate max-w-[20ch]">
-                                                    {value}
-                                                </p>
-                                            </div>
+                                            key !== 'id' && key !== 'image' && (
+                                                <div
+                                                    className="flex justify-between gap-5 w-full text-right"
+                                                    key={key}
+                                                >
+                                                    <h4 className="text-grey capitalize">
+                                                        {key.split("_").join(" ")}
+                                                    </h4>
+                                                    <p className="text-black-100 font-semibold truncate max-w-[40ch]">
+                                                        {value}
+                                                    </p>
+                                                </div>
+                                            )
                                         ))}
                                     </div>
+                                    <CustomButton
+                                        title="Dejar comentario"
+                                        containerStyles="bg-primary-blue text-white rounded-full mt-10 hover:scale-105"
+                                        handleClick={() => {}}
+                                    />
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>

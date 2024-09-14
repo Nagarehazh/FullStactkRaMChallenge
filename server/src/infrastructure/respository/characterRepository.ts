@@ -37,7 +37,7 @@ export default class CharacterRepository {
         Object.entries(filters).forEach(([key, value]) => {
             if (value) {
                 if (key === 'name') {
-                    queryBuilder.andWhere(`characters.${key} ILIKE :${key}`, { [key]: `%${value}%` });
+                    queryBuilder.andWhere(`REPLACE(characters.${key}, ' ', '') ILIKE :${key}`, { [key]: `%${value.replace(/\s+/g, '')}%` });
                 } else {
                     queryBuilder.andWhere(`characters.${key} = :${key}`, { [key]: value });
                 }
@@ -46,4 +46,5 @@ export default class CharacterRepository {
 
         return await queryBuilder.getMany();
     }
+
 }
