@@ -117,6 +117,10 @@
 
 .ram-ramd__icon-text {
   @apply text-[14px] leading-[17px];
+  max-width: 10ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ram-ramd__btn-container {

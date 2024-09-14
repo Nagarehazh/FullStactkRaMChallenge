@@ -1,7 +1,13 @@
 import Image from "next/image";
 import {CustomFilter, Hero, SearchBar} from "../components";
+import {getCharacters} from "@/utils";
+import {CharacterCard} from "@/components";
 
-export default function Home() {
+export default async function Home() {
+    const result = await getCharacters({});
+
+    const isDataEmpty = !Array.isArray(result) || result.length === 0 || !result;
+
     return (
         <main className="overflow-hidden">
             <Hero/>
@@ -21,7 +27,19 @@ export default function Home() {
                         <CustomFilter title='Origen'/>
                     </div>
                 </div>
-
+                {!isDataEmpty ? (
+                    <section>
+                        <div className="home__rams-wrapper">
+                            {result?.map((character) => (
+                                <CharacterCard pj={character} key={character.id}/>
+                            ))}
+                        </div>
+                    </section>
+                ) : (
+                    <div className="home__error-container">
+                        <h2>Oops, no hay resultados</h2>
+                    </div>
+                )}
             </div>
         </main>
     );

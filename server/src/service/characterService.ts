@@ -61,6 +61,7 @@ export class CharacterService {
     }
 
     async getCharacters(filters: CharacterFilters): Promise<Characters[]> {
+        console.log('Fetching characters with filters:', filters);
         return await this.characterRepository.getCharacters(filters);
     }
 }
