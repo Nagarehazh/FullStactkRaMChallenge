@@ -1,6 +1,23 @@
-# Rick and Morty Character Explorer
+# Rick and Morty Characters
 
 Este proyecto es una aplicación full stack en respuesta a un Challenge laboral. Permite buscar y gestionar personajes de la serie Rick y Morty, utilizando la API pública de Rick y Morty.
+
+# Tabla de Índice
+
+- [Rick and Morty Characters](#rick-and-morty-character-explorer)
+    - [Tecnologías utilizadas](#tecnologías-utilizadas)
+    - [Requisitos previos](#requisitos-previos)
+    - [Configuración y ejecución](#configuración-y-ejecución)
+        - [Backend](#backend)
+            - [Uso de Apollo GraphQL](#uso-de-apollo-graphql)
+                - [Queries y Mutations](#queries-y-mutations)
+        - [Frontend](#frontend)
+    - [Uso de la aplicación](#uso-de-la-aplicación)
+    - [Diagrama ERD](#diagrama-erd)
+    - [Flujo operativo](#flujo-operativo)
+    - [Imágenes](#imágenes)
+- [Agradecimiento](#agradecimiento)
+
 
 ## Tecnologías utilizadas
 
@@ -169,3 +186,5 @@ La aplicación estará disponible en http://localhost:3000
 
 # Agradecimiento
 Quiero expresar mi más sincero agradecimiento por la oportunidad de participar en este challenge. Espero que el resultado cumpla con sus expectativas y estoy ansioso por nuestro encuentro. ¡Un gran abrazo Team!
+
+con cariño Harley Zapata
