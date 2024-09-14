@@ -33,8 +33,8 @@ export default function Home() {
     return (
         <main className="overflow-hidden">
             <Hero />
-            <div className="mt-12 padding-x padding-y max-width mb-40" id="discover">
-                <div className="home__text-container">
+            <div className="flex flex-col items-center justify-center mt-12 padding-x padding-y max-width mb-40" id="discover">
+                <div className="home__text-container text-center">
                     <h1 className="text-4xl font-extrabold">Catálogo</h1>
                     <p>Explora los diferentes filtros</p>
                 </div>

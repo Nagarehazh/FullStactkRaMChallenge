@@ -83,8 +83,8 @@ export default function CharacterList({ initialCharacters }: CharacterListProps)
 
     return (
         <>
-            <div className='home__filters'>
-                <div className='home__filter-container'>
+            <div className="flex flex-col items-center justify-center space-y-4 home__filters">
+                <div className="flex flex-wrap justify-center items-center gap-4 mt-4 mb-4 home__filter-container">
                     <CustomFilter
                         title='Estado'
                         options={filterOptions.estado}
@@ -118,9 +118,9 @@ export default function CharacterList({ initialCharacters }: CharacterListProps)
             </div>
 
             {activeFilters.length > 0 && (
-                <div className="mt-4 mb-4">
+                <div className="mt-4 mb-4 text-center">
                     <h3 className="text-lg font-semibold mb-2">Filtros activos:</h3>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap justify-center gap-2">
                         {activeFilters.map(([key, value]) => (
                             <span key={key} className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm flex items-center">
                                 {key}: {value}
@@ -143,17 +143,19 @@ export default function CharacterList({ initialCharacters }: CharacterListProps)
             )}
 
             {loading ? (
-                <div className="home__loading">Cargando...</div>
+                <div className="flex justify-center items-center h-64">
+                    <p className="text-lg">Cargando...</p>
+                </div>
             ) : characters.length > 0 ? (
-                <section>
-                    <div className="home__rams-wrapper">
+                <section className="flex justify-center items-center">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 home__rams-wrapper">
                         {characters.map((character) => (
                             <CharacterCard pj={character} key={character.id}/>
                         ))}
                     </div>
                 </section>
             ) : (
-                <div className="home__error-container">
+                <div className="flex justify-center items-center h-64">
                     <h2>Oops, no hay resultados</h2>
                 </div>
             )}
