@@ -167,6 +167,8 @@ La aplicación estará disponible en http://localhost:3000
 2. Filtra personajes por estado, especie, género y origen
 3. Agrega comentarios a los personajes
 4. Marca tus personajes favoritos
+5. **Cron Job**: node-cron para actualización automática de personajes 
+6. Seed inicial de base de datos con 15 personajes
 
 ## Diagrama ERD
 
