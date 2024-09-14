@@ -5,3 +5,8 @@ export interface CustomButtonProps {
     containerStyles?: string;
     handleClick: MouseEventHandler<HTMLButtonElement>;
 }
+
+export interface SearchByNameProps {
+    characterName: string;
+    setCharacterName: (name: string) => void;
+}
