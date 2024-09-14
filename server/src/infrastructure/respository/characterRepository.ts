@@ -35,6 +35,7 @@ export default class CharacterRepository {
         const queryBuilder = this.repository
             .createQueryBuilder('character')
             .leftJoinAndSelect('character.favorites', 'favorites')
+            .leftJoinAndSelect('character.comments', 'comments')
             .where('character.deleted_at IS NULL');
 
         Object.entries(filters).forEach(([key, value]) => {
@@ -51,7 +52,15 @@ export default class CharacterRepository {
 
         return characters.map(character => ({
             ...character,
-            favorites: character.favorites || []
+            favorites: character.favorites || [],
+            comments: character.comments || [],
         }));
+    }
+
+    async findCharacterById(id: string): Promise<Characters | null> {
+        return await this.repository.findOne({
+            where: { id },
+            relations: ['comments', 'favorites']
+        });
     }
 }

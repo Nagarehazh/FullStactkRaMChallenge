@@ -5,7 +5,8 @@ import {
     ManyToOne,
     CreateDateColumn,
     UpdateDateColumn,
-    DeleteDateColumn
+    DeleteDateColumn,
+    JoinColumn
 } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
 import { Characters } from './characters';
@@ -18,7 +19,7 @@ export class Comments {
     id!: string;
 
     @Field()
-    @Column('uuid')
+    @Column({ name: 'character_id' })
     characterId!: string;
 
     @Field()
@@ -27,6 +28,7 @@ export class Comments {
 
     @Field(() => Characters)
     @ManyToOne(() => Characters, character => character.comments, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'character_id' })
     character!: Characters;
 
     @Field()

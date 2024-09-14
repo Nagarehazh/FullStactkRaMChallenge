@@ -8,14 +8,16 @@ import { FavoriteResolver } from "./resolvers/favoriteResolver";
 import { Characters } from "../../entity/characters";
 import { Favorites } from "../../entity/favorites";
 import { requestLogger } from "../middleware/requestLogger";
+import {Comments} from "../../entity/comments";
+import {CommentResolver} from "./resolvers/commentResolver";
 
 const app = express();
 app.use(requestLogger);
 
 export async function startApolloServer() {
     const schema = await buildSchema({
-        resolvers: [HealthCheckResolver, CharacterResolver, FavoriteResolver],
-        orphanedTypes: [Characters, Favorites],
+        resolvers: [HealthCheckResolver, CharacterResolver, FavoriteResolver, CommentResolver],
+        orphanedTypes: [Characters, Favorites, Comments],
         emitSchemaFile: true,
         validate: false,
     });
