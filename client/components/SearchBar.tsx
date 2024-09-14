@@ -1,30 +1,35 @@
 "use client";
 
-import {SearchByQuery} from "@/components";
-import {useState} from "react";
-import { useRouter } from "next/navigation";
+import { SearchByQuery } from "@/components";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import {cleanString} from "@/utils";
+import { cleanString } from "@/utils";
 
 const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
-    <button type='submit' className={`-ml-3 z-10 ${otherClasses}`}>
+    <button type="submit" className={`-ml-3 z-10 ${otherClasses}`}>
         <Image
             src={"/magnifying-glass.svg"}
             alt={"magnifying glass"}
             width={40}
             height={40}
-            className='object-contain'
+            className="object-contain"
         />
     </button>
 );
 
 const SearchBar = () => {
-    const [searchQuery, setSearchQuery] = useState("");
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const initialQuery = searchParams.get("search") || ""; // Obtener el valor inicial desde los params
+    const [searchQuery, setSearchQuery] = useState(initialQuery);
+
+    useEffect(() => {
+        setSearchQuery(initialQuery); // Actualiza el estado si los searchParams cambian
+    }, [initialQuery]);
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         updateSearchParams(cleanString(searchQuery));
     };
 
@@ -45,17 +50,17 @@ const SearchBar = () => {
     };
 
     return (
-            <form className="searchbar" onSubmit={handleSearch}>
-                <div className="searchbar__item">
-                    <SearchByQuery
-                        searchQuery={searchQuery}
-                        setSearchQuery={setSearchQuery}
-                    />
-                    <SearchButton otherClasses='sm:hidden' />
-                </div>
-                <SearchButton otherClasses='max-sm:hidden' />
-            </form>
-        )
-    }
+        <form className="searchbar" onSubmit={handleSearch}>
+            <div className="searchbar__item">
+                <SearchByQuery
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                />
+                <SearchButton otherClasses="sm:hidden" />
+            </div>
+            <SearchButton otherClasses="max-sm:hidden" />
+        </form>
+    );
+};
 
-    export default SearchBar;
+export default SearchBar;
