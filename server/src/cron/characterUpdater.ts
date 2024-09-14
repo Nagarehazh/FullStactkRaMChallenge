@@ -9,7 +9,6 @@ const characterService = new CharacterService(characterRepository, rickAndMortyR
 
 export function startCharacterUpdateJob() {
     cron.schedule('0 */12 * * *', async () => {
-        // Obtener el tiempo de inicio
         const startTime = new Date();
         console.log(`⏰ Cron Job Iniciado: Actualización de personajes a las ${startTime.toISOString()}`);
 
