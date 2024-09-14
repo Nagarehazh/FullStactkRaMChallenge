@@ -23,6 +23,7 @@ export interface Character {
     gender: string;
     origin: string;
     image: string;
+    comments: {id: string, content: string}[];
     favorites: { id: string }[];
 }
 

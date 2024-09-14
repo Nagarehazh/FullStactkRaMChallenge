@@ -1,18 +1,25 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Image from "next/image";
-
 import { Dialog, Transition } from "@headlessui/react";
 import { Character } from "@/types";
-import {CustomButton} from "@/components";
+import { CustomButton } from "@/components";
 
-interface ramDetailsProps {
+interface CharacterDetailProps {
     isOpen: boolean;
     closeModal: () => void;
     ram: Character;
 }
 
-const CharacterDetail = ({ isOpen, closeModal, ram }: ramDetailsProps) => (
-    <>
+const CharacterDetail = ({ isOpen, closeModal, ram }: CharacterDetailProps) => {
+    const [newComment, setNewComment] = useState("");
+
+    const handleAddComment = () => {
+        // Aquí implementarías la lógica para añadir el comentario
+        console.log("Añadiendo comentario:", newComment);
+        setNewComment("");
+    };
+
+    return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={closeModal}>
                 <Transition.Child
@@ -72,7 +79,7 @@ const CharacterDetail = ({ isOpen, closeModal, ram }: ramDetailsProps) => (
 
                                     <div className="mt-3 flex flex-wrap gap-4">
                                         {Object.entries(ram).map(([key, value]) => (
-                                            key !== 'id' && key !== 'image' && key !== 'favorites' && (
+                                            key !== 'id' && key !== 'image' && key !== 'favorites' && key !== 'comments' && (
                                                 <div
                                                     className="flex justify-between gap-5 w-full text-right"
                                                     key={key}
@@ -87,11 +94,35 @@ const CharacterDetail = ({ isOpen, closeModal, ram }: ramDetailsProps) => (
                                             )
                                         ))}
                                     </div>
-                                    <CustomButton
-                                        title="Dejar comentario"
-                                        containerStyles="bg-primary-blue text-white rounded-full mt-10 hover:scale-105"
-                                        handleClick={() => {}}
-                                    />
+
+                                    <div className="mt-6">
+                                        <h3 className="font-semibold text-lg mb-2">Comentarios</h3>
+                                        <div className="max-h-40 overflow-y-auto mb-4">
+                                            {ram.comments.length > 0 ? (
+                                                ram.comments.map((comment) => (
+                                                    <div key={comment.id} className="bg-gray-100 p-2 rounded mb-2">
+                                                        <p>{comment.content}</p>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className="text-gray-500">No hay comentarios aún.</p>
+                                            )}
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                value={newComment}
+                                                onChange={(e) => setNewComment(e.target.value)}
+                                                placeholder="Escribe un comentario..."
+                                                className="flex-grow p-2 border rounded"
+                                            />
+                                            <CustomButton
+                                                title="Comentar"
+                                                containerStyles="bg-primary-blue text-white rounded-full px-4 py-2 hover:bg-blue-600"
+                                                handleClick={handleAddComment}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>
@@ -99,7 +130,7 @@ const CharacterDetail = ({ isOpen, closeModal, ram }: ramDetailsProps) => (
                 </div>
             </Dialog>
         </Transition>
-    </>
-);
+    );
+};
 
 export default CharacterDetail;

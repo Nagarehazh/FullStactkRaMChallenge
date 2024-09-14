@@ -1,4 +1,4 @@
-import { GraphQLClient } from 'graphql-request';
+import {GraphQLClient} from 'graphql-request';
 import {Character} from "@/types";
 
 const endpoint = 'http://localhost:4040/graphql';
@@ -19,7 +19,7 @@ export const importCharacters = async (count: number): Promise<Character[]> => {
         }
     `;
 
-    const variables = { count };
+    const variables = {count};
 
     try {
         const response = await graphQLClient.request<{ importCharacters: Character[] }>(mutation, variables);
@@ -47,6 +47,10 @@ export const getCharacters = async (filters: {
                 gender
                 origin
                 image
+                comments {
+                    id
+                    content
+                }
                 favorites {
                     id
                 }
@@ -97,7 +101,7 @@ export const toggleFavorite = async (characterId: string): Promise<ToggleFavorit
         }
     `;
 
-    const variables = { characterId };
+    const variables = {characterId};
 
     try {
         const response = await graphQLClient.request<{ toggleFavorite: ToggleFavoriteResponse }>(mutation, variables);
@@ -110,7 +114,7 @@ export const toggleFavorite = async (characterId: string): Promise<ToggleFavorit
 
 export const cleanString = (str: string): string => {
     return str.toLowerCase()
-            .replace(/\s+/g, "")
+        .replace(/\s+/g, "")
 }
 
 export const updateSearchParams = (type: string, value: string) => {
@@ -146,8 +150,8 @@ export const generateFilterOptions = (characters: Character[]): FilterOptions =>
         })));
 
         return [
-            { title: filterType.charAt(0).toUpperCase() + filterType.slice(1), value: "" },
-            ...uniqueValues.map(value => ({ title: value, value }))
+            {title: filterType.charAt(0).toUpperCase() + filterType.slice(1), value: ""},
+            ...uniqueValues.map(value => ({title: value, value}))
         ];
     };
 
