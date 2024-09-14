@@ -21,23 +21,23 @@ const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
 const SearchBar = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const initialQuery = searchParams.get("search") || ""; // Obtener el valor inicial desde los params
+    const initialQuery = searchParams.get("search") || "";
     const [searchQuery, setSearchQuery] = useState(initialQuery);
 
     useEffect(() => {
-        setSearchQuery(initialQuery); // Actualiza el estado si los searchParams cambian
+        setSearchQuery(initialQuery);
     }, [initialQuery]);
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        updateSearchParams(cleanString(searchQuery));
+        updateSearchParams(searchQuery.trim());
     };
 
     const updateSearchParams = (searchQuery: string) => {
         const searchParam = new URLSearchParams(window.location.search);
 
         if (searchQuery) {
-            searchParam.set("search", searchQuery);
+            searchParam.set("search", cleanString(searchQuery));
         } else {
             searchParam.delete("search");
         }
