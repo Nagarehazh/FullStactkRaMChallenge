@@ -7,6 +7,7 @@ import CustomFilter from "./CustomFilter";
 import SearchByName from "./SearchByQuery";
 import CharacterCard from "./CharacterCard";
 import SearchByQuery from "./SearchByQuery";
+import CharacterList from "./CharacterList";
 
 export {
     Hero,
@@ -17,5 +18,6 @@ export {
     CustomFilter,
     SearchByName,
     CharacterCard,
-    SearchByQuery
+    SearchByQuery,
+    CharacterList
 }

@@ -29,14 +29,21 @@ export interface CharacterCardProps {
     pj: Character;
 }
 
-export interface SearchBarProps {
-    allCharactersData: Character[];
-}
-
 interface FilterProps {
     search?: string;
 }
 
 export interface HomeProps {
     searchParams: FilterProps
+}
+
+export interface OptionProps {
+    title: string;
+    value: string;
+}
+
+export interface CustomFilterProps {
+    title: string;
+    options: OptionProps[];
+    onChange: (value: string) => void;
 }
