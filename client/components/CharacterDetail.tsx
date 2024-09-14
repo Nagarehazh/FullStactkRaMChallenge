@@ -3,20 +3,40 @@ import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
 import { Character } from "@/types";
 import { CustomButton } from "@/components";
+import {addComment} from "@/utils";
 
 interface CharacterDetailProps {
     isOpen: boolean;
     closeModal: () => void;
     ram: Character;
+    onCommentAdded: (updatedCharacter: Character) => void;
 }
 
-const CharacterDetail = ({ isOpen, closeModal, ram }: CharacterDetailProps) => {
+const CharacterDetail = ({ isOpen, closeModal, ram, onCommentAdded }: CharacterDetailProps) => {
     const [newComment, setNewComment] = useState("");
+    const [isAddingComment, setIsAddingComment] = useState(false);
 
-    const handleAddComment = () => {
-        // Aquí implementarías la lógica para añadir el comentario
-        console.log("Añadiendo comentario:", newComment);
-        setNewComment("");
+    const handleAddComment = async () => {
+        if (newComment.trim() === "") return;
+
+        setIsAddingComment(true);
+        try {
+            const response = await addComment(ram.id, newComment);
+            if (response.success && response.comment) {
+                const updatedCharacter = {
+                    ...ram,
+                    comments: [...ram.comments, response.comment]
+                };
+                onCommentAdded(updatedCharacter);
+                setNewComment("");
+            } else {
+                console.error("Failed to add comment:", response.message);
+            }
+        } catch (error) {
+            console.error("Error adding comment:", error);
+        } finally {
+            setIsAddingComment(false);
+        }
     };
 
     return (

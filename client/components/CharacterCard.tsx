@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { CharacterCardProps } from "@/types";
+import { CharacterCardProps, Character } from "@/types";
 import CharacterDetail from "@/components/CharacterDetail";
 import { toggleFavorite as toggleFavoriteApi } from "@/utils";
 
-const CharacterCard = ({ pj }: CharacterCardProps) => {
+const CharacterCard = ({ pj: initialPj }: CharacterCardProps) => {
+    const [pj, setPj] = useState<Character>(initialPj);
     const [isFavorite, setIsFavorite] = useState(pj.favorites.length > 0);
     const [isOpen, setIsOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -30,6 +31,10 @@ const CharacterCard = ({ pj }: CharacterCardProps) => {
 
     const openModal = () => {
         setIsOpen(true);
+    };
+
+    const handleCommentAdded = (updatedCharacter: Character) => {
+        setPj(updatedCharacter);
     };
 
     return (
@@ -97,7 +102,14 @@ const CharacterCard = ({ pj }: CharacterCardProps) => {
                 </div>
             </div>
 
-            {isOpen && <CharacterDetail isOpen={isOpen} closeModal={() => setIsOpen(false)} ram={pj} />}
+            {isOpen && (
+                <CharacterDetail
+                    isOpen={isOpen}
+                    closeModal={() => setIsOpen(false)}
+                    ram={pj}
+                    onCommentAdded={handleCommentAdded}
+                />
+            )}
         </>
     );
 };

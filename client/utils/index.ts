@@ -117,13 +117,6 @@ export const cleanString = (str: string): string => {
         .replace(/\s+/g, "")
 }
 
-export const updateSearchParams = (type: string, value: string) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set(type, value);
-    return `${window.location.pathname}?${searchParams.toString()}`;
-};
-
-
 type FilterOption = { title: string; value: string };
 type FilterOptions = {
     estado: FilterOption[];
@@ -163,16 +156,36 @@ export const generateFilterOptions = (characters: Character[]): FilterOptions =>
     };
 };
 
-export const filterCharacters = (characters: Character[], filters: {
-    estado: string;
-    especie: string;
-    genero: string;
-    origen: string;
-}) => {
-    return characters.filter(character =>
-        (filters.estado === '' || character.status.toLowerCase() === filters.estado.toLowerCase()) &&
-        (filters.especie === '' || character.species.toLowerCase() === filters.especie.toLowerCase()) &&
-        (filters.genero === '' || character.gender.toLowerCase() === filters.genero.toLowerCase()) &&
-        (filters.origen === '' || character.origin.toLowerCase() === filters.origen.toLowerCase())
-    );
+interface AddCommentResponse {
+    success: boolean;
+    message?: string;
+    comment?: {
+        id: string;
+        content: string;
+    };
+}
+
+export const addComment = async (characterId: string, content: string): Promise<AddCommentResponse> => {
+    const mutation = `
+        mutation AddComment($characterId: String!, $content: String!) {
+            addComment(characterId: $characterId, content: $content) {
+                success
+                message
+                comment {
+                    id
+                    content
+                }
+            }
+        }
+    `;
+
+    const variables = { characterId, content };
+
+    try {
+        const response = await graphQLClient.request<{ addComment: AddCommentResponse }>(mutation, variables);
+        return response.addComment;
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        throw new Error('Error al agregar comentario');
+    }
 };
