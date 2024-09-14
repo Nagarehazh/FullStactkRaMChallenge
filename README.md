@@ -8,6 +8,7 @@ Este proyecto es una aplicación full stack en respuesta a un Challenge laboral.
 - Backend: Express, GraphQL, TypeScript, Typeorm, Redis
 - Base de datos: PostgreSQL
 - Dockerfile - docker compose
+- Patrón hexagonal
 
 ## Requisitos previos
 
@@ -150,6 +151,13 @@ La aplicación estará disponible en http://localhost:3000
 3. Agrega comentarios a los personajes
 4. Marca tus personajes favoritos
 
+## Diagrama ERD
+
+![Filtros](./client/public/diagrama_erd.png)
+
+## Flujo operativo
+![Filtros](./client/public/presentation_05.png)
+
 ## Imágenes
 ![Hero Presentation](./client/public/hero_presentation.png)
 
@@ -159,4 +167,5 @@ La aplicación estará disponible en http://localhost:3000
 
 ![Filtros](./client/public/presentation_04.png)
 
-
+# Agradecimiento
+Quiero expresar mi más sincero agradecimiento por la oportunidad de participar en este challenge. Espero que el resultado cumpla con sus expectativas y estoy ansioso por nuestro encuentro. ¡Un gran abrazo Team!
