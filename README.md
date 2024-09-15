@@ -83,7 +83,16 @@ query GetCharacters {
     name
     status
     species
+    gender
+    origin
     image
+     comments {
+      id
+      content
+     }
+    favorites {
+      id
+    }
   }
 }
 ```
