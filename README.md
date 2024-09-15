@@ -1,6 +1,6 @@
 # Rick and Morty Characters
 
-Este proyecto es una aplicación full stack en respuesta a un Challenge laboral. Permite buscar y gestionar personajes de la serie Rick y Morty, utilizando la API pública de Rick y Morty.
+Este proyecto es una aplicación full stack en respuesta a Challenge laboral. Permite buscar y gestionar personajes de la serie Rick y Morty, utilizando la API pública de Rick y Morty.
 
 # Tabla de Índice
 
