@@ -59,7 +59,7 @@ DB_NAME=rickmorty_db
 2. Inicia los contenedores Docker:
 
 ```bash
-docker-compose up -d --build
+docker-compose up --build
 ```
 
 Este comando iniciará los contenedores para PostgreSQL, Redis y la aplicación del servidor.
